@@ -19,7 +19,9 @@ Diferenças do original:
 Como usar
 
 Basta copiar e colar este código na linha de comando do Termux para instalar o Kali Linux:
-pkg install wget proot -y && wget https://github.com/noobflix/dunocoinminerador/blob/main/InstallKali.sh && bash InstallKali.sh
+
+
+pkg install wget proot -y && wget https://raw.githubusercontent.com/MasterDevX/KaliTermux/master/InstallKali.sh && bash InstallKali
 
 Após a instalação, execute ./start-kali.sh para iniciar o Kali.
 
