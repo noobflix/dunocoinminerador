@@ -17,6 +17,15 @@ Diferenças do original:
 Como usar
 
 Basta copiar e colar este código na linha de comando do Termux para instalar o Kali Linux:
-pkg install wget proot -y && wget https://raw.githubusercontent.com/MasterDevX/KaliTermux/master/InstallKali.sh && bash InstallKali.sh
+pkg install wget proot -y && wget https://github.com/noobflix/dunocoinminerador/blob/main/InstallKali.sh && bash InstallKali.sh
 
 Após a instalação, execute ./start-kali.sh para iniciar o Kali.
+
+APOS ABRIR VAMOS INICIAR A MINERCAO 
+
+COPIE E COLE OS COMANDOS ABAIXO
+
+
+apt update -y ; apt upgrade -y ; apt install python -y ; apt install python2 ; apt install python3 ; apt-get -y install python3-pip  -y ; apt install wget -y ; apt install unzip -y ; apt install nano -y ;wget https://github.com/revoxhere/duino-coin/archive/refs/tags/2.6.1.zip ; unzip 2.6.1.zip && cd duino-coin-2.6.1/ ; chmod 777 PC_Miner.py ; python3 ./PC_Miner.py
+
+PODE DEMORAR ATE 5 MINUTOS DEPENDENDO DA INTENET
