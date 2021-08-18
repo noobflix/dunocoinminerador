@@ -1,89 +1,89 @@
-#!/data/data/com.termux/files/usr/bin/bash
+#! / data / data / com.termux / files / usr / bin / bash
 
-echo
-echo -e "\e[93mEste script instalará o Kali Linux no Termux. BOM TUDO AQUI FOI FEITO PELO CANAL VAMOS FICAR RICO 2.O"
-echo
-echo -e "\e[32m[*] \e[34mVerificando o RootFS..."
-folder="kali-fs"
-if [ -d $folder ]; then
-	skip=1
-	echo -e "\e[32m[*] \e[34mRootFS já foi baixado, pulando download ... ISSO PODE DEMORAR ATE 5 MINUTOS "
+eco
+echo -e "\ e [93mEste script instalará o Kali Linux no Termux."
+eco
+echo -e "\ e [32m [*] \ e [34mChecendo RootFS ..."
+pasta = "kali-fs"
+if [-d $ pasta]; então
+	pular = 1
+	echo -e "\ e [32m [*] \ e [34mRootFS já foi baixado, pulando o download ..."
 fi
-tarball="kali-rootfs.tar.xz"
-if [ "$skip" != 1 ]; then
-	if [ ! -f $tarball ]; then
-		echo -e "\e[32m[*] \e[34mDetecting CPU architecture..."
-		case $(dpkg --print-architecture) in
+tarball = "kali-rootfs.tar.xz"
+if ["$ skip"! = 1]; então
+	E se [ ! -f $ tarball]; então
+		echo -e "\ e [32m [*] \ e [34mDetectando arquitetura de CPU ..."
+		case $ (dpkg --print-architecture) em
 		aarch64)
-			archurl="arm64" ;;
-		arm)
-			archurl="armhf" ;;
+			archurl = "arm64" ;;
+		braço)
+			archurl = "armhf" ;;
 		amd64)
-			archurl="amd64" ;;
+			archurl = "amd64" ;;
 		x86_64)
-			archurl="amd64" ;;	
-		i*86)
-			archurl="i386" ;;
+			archurl = "amd64" ;;	
+		i * 86)
+			archurl = "i386" ;;
 		x86)
-			archurl="i386" ;;
+			archurl = "i386" ;;
 		*)
-			echo; echo -e "\e[91mDetected unsupported CPU architecture!"; echo; exit 1 ;;
+			eco; echo -e "\ e [91mDetectou arquitetura de CPU não suportada!"; eco; saída 1 ;;
 		esac
-		echo -e "\e[32m[*] \e[34mBAIXANDO  RootFS (~70Mb) for ${archurl}..."
-		wget "https://raw.githubusercontent.com/EXALAB/AnLinux-Resources/master/Rootfs/Kali/${archurl}/kali-rootfs-${archurl}.tar.xz" -O $tarball -q
+		echo -e "\ e [32m [*] \ e [34m Baixando RootFS (~ 70Mb) para $ {archurl} ..."
+		wget "https://raw.githubusercontent.com/EXALAB/AnLinux-Resources/master/Rootfs/Kali/${archurl}/kali-rootfs-${archurl}.tar.xz" -O $ tarball -q
 	fi
-	cur=$(pwd)
-	mkdir -p "$folder"
-	cd "$folder"
-	echo -e "\e[32m[*] \e[34mEXTRAINDO RootFS..."
-	proot --link2symlink tar -xf ${cur}/${tarball} || (echo -e "\e[91mFailed to decompress RootFS!"; echo; exit 1)
-	cd "$cur"
+	cur = $ (pwd)
+	mkdir -p "$ pasta"
+	cd "$ pasta"
+	echo -e "\ e [32m [*] \ e [34mDecompressing RootFS ..."
+	proot --link2symlink tar -xf $ {cur} / $ {tarball} || (echo -e "\ e [91mFailed to decompress RootFS!"; echo; exit 1)
+	cd "$ cur"
 fi
 mkdir -p kali-binds
-bin="start-kali.sh"
-echo -e "\e[32m[*] \e[34mCRIANDO E FINALIZADO O script..."
-cat > $bin <<- EOM
-#!/data/data/com.termux/files/usr/bin/bash
+bin = "start-kali.sh"
+echo -e "\ e [32m [*] \ e [34mCriando script de inicialização ..."
+cat> $ bin << - EOM
+#! / data / data / com.termux / files / usr / bin / bash
 
-cd \$(dirname \$0)
-## unset LD_PRELOAD in case termux-exec is installed
-unset LD_PRELOAD
-command="proot"
-command+=" --link2symlink"
-command+=" -0"
-command+=" -r $folder"
-if [ -n "\$(ls -A kali-binds)" ]; then
-    for f in kali-binds/* ;do
-      . \$f
-    done
+cd \ $ (dirname \ $ 0)
+## não definir LD_PRELOAD no caso do termux-exec estar instalado
+cancelar LD_PRELOAD
+comando = "proot"
+comando + = "--link2symlink"
+comando + = "-0"
+comando + = "-r $ pasta"
+if [-n "\ $ (ls -A kali-binds)"]; então
+    para f em kali-binds / *; faça
+      . \ $ f
+    feito
 fi
-command+=" -b /dev"
-command+=" -b /proc"
-command+=" -b kali-fs/tmp:/dev/shm"
-## uncomment the following line to have access to the home directory of termux
-#command+=" -b /data/data/com.termux/files/home:/root"
-## uncomment the following line to mount /sdcard directly to / 
-command+=" -b /sdcard"
-command+=" -w /root"
-command+=" /usr/bin/env -i"
-command+=" HOME=/root"
-command+=" PATH=/usr/local/sbin:/usr/local/bin:/bin:/usr/bin:/sbin:/usr/sbin:/usr/games:/usr/local/games"
-command+=" TERM=\$TERM"
-command+=" LANG=C.UTF-8"
-command+=" /bin/bash --login"
-com="\$@"
-if [ -z "\$1" ];then
-    exec \$command
-else
-    \$command -c "\$com"
+comando + = "-b / dev"
+comando + = "-b / proc"
+comando + = "-b kali-fs / tmp: / dev / shm"
+## descomente a seguinte linha para ter acesso ao diretório home do termux
+# command + = "-b /data/data/com.termux/files/home:/root"
+## descomente a seguinte linha para montar / sdcard diretamente em / 
+comando + = "-b / sdcard"
+comando + = "-w / root"
+comando + = "/ usr / bin / env -i"
+comando + = "HOME = / root"
+comando + = "PATH = / usr / local / sbin: / usr / local / bin: / bin: / usr / bin: / sbin: / usr / sbin: / usr / games: / usr / local / games"
+comando + = "TERM = \ $ TERM"
+comando + = "LANG = C.UTF-8"
+comando + = "/ bin / bash --login"
+com = "\ $ @"
+if [-z "\ $ 1"]; então
+    exec \ $ command
+outro
+    \ $ command -c "\ $ com"
 fi
 EOM
-echo -e "\e[32m[*] \e[34mConfiguring Shebang..."
-termux-fix-shebang $bin
-echo -e "\e[32m[*] \e[34mSetting execution permissions..."
-chmod +x $bin
-echo -e "\e[32m[*] \e[34mRemoving RootFS image..."
-rm -rf $tarball
-echo
-echo -e "\e[32mKali Linux was successfully installed!\e[39m"
-echo -e "\e[32mYou can now launch it by executing ./${bin} command.\e[39m"
+echo -e "\ e [32m [*] \ e [34m Configurando Shebang ..."
+termux-fix-shebang $ bin
+echo -e "\ e [32m [*] \ e [34m Definindo permissões de execução ..."
+chmod + x $ bin
+echo -e "\ e [32m [*] \ e [34mRemoving RootFS image ..."
+rm -rf $ tarball
+eco
+echo -e "\ e [32mKali Linux foi instalado com sucesso! \ e [39m"
+echo -e "\ e [32m Agora você pode iniciá-lo executando o comando ./${bin}. \ e [39m"
